@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SkillSwap — Share What You Know. Learn What You Love.</title>
+<style>
+:root{--bg:#F8F7FF;--card:#fff;--text:#24213D;--muted:#6b6886;--primary:#6C5CE7;--navy:#24213D;--orange:#FFB86B;--green:#27AE60;--border:#e6e3f7;--shadow:0 6px 24px rgba(108,92,231,.12);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16142a;--card:#201d3b;--text:#f1efff;--muted:#a9a5cc;--border:#332f57;--shadow:0 6px 24px rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#16142a;--card:#201d3b;--text:#f1efff;--muted:#a9a5cc;--border:#332f57;--shadow:0 6px 24px rgba(0,0,0,.4);color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(70px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--card)}
+h1,h2,h3{line-height:1.2;margin:0 0 .5rem}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--card);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;gap:18px;height:64px}
+.logo{font-weight:800;font-size:1.35rem;display:flex;align-items:center;gap:8px;cursor:pointer}
+.logo i{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--orange));display:grid;place-items:center;color:#fff;font-style:normal}
+.links{display:flex;gap:4px;margin-left:auto;align-items:center;flex-wrap:wrap}
+.links a,.links button{padding:8px 12px;border-radius:10px;font-size:.95rem;cursor:pointer;background:none;border:0;color:inherit;font-family:inherit}
+.links a:hover,.links a.on{background:var(--bg);color:var(--primary)}
+.btn{display:inline-block;border:0;border-radius:12px;padding:11px 20px;font-weight:600;font-size:.95rem;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.p{background:linear-gradient(135deg,var(--primary),#8e7dff);color:#fff;box-shadow:0 6px 16px rgba(108,92,231,.35)}
+.btn.o{background:var(--orange);color:#24213D}
+.btn.g{background:transparent;border:2px solid var(--primary);color:var(--primary)}
+.btn.s{padding:8px 14px;font-size:.85rem}
+.menu{display:none;margin-left:auto;font-size:1.4rem;background:none;border:0;color:inherit;cursor:pointer}
+@media(max-width:820px){.menu{display:block}.links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--card);flex-direction:column;align-items:stretch;padding:12px 20px;border-bottom:1px solid var(--border)}.links.open{display:flex}}
+.view{display:none;animation:fade .4s}.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero{background:linear-gradient(135deg,var(--navy),#4b3fb5 60%,var(--primary));color:#fff;padding:64px 0 72px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+@media(max-width:820px){.hero .wrap{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem)}
+.hero p{opacity:.9;max-width:520px}
+.tag{display:inline-block;background:rgba(255,255,255,.15);padding:5px 14px;border-radius:99px;font-size:.85rem;margin-bottom:14px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.floaty{position:relative;height:300px}
+.fc{position:absolute;background:var(--card);color:var(--text);border-radius:18px;padding:14px 16px;box-shadow:0 12px 30px rgba(0,0,0,.25);display:flex;gap:10px;align-items:center;animation:fl 5s ease-in-out infinite}
+.fc b{display:block}.fc small{color:var(--muted)}
+@keyframes fl{50%{transform:translateY(-12px)}}
+section{padding:56px 0}
+.sh{text-align:center;max-width:620px;margin:0 auto 32px}
+.sh p{color:var(--muted);margin:0}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:var(--shadow);transition:transform .2s}
+.card:hover{transform:translateY(-4px)}
+.ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:1.5rem;margin-bottom:10px}
+.card p{color:var(--muted);font-size:.92rem;margin:.2rem 0 .8rem}
+.steps{counter-reset:s}.steps .card::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--primary);color:#fff;font-weight:700;margin-bottom:10px}
+.av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;flex:none}
+.row{display:flex;gap:12px;align-items:center}
+.chip{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.76rem;font-weight:600;background:rgba(108,92,231,.12);color:var(--primary);margin:2px 4px 2px 0}
+.chip.o{background:rgba(255,184,107,.25);color:#b36b00}.chip.g{background:rgba(39,174,96,.15);color:var(--green)}.chip.r{background:rgba(220,60,60,.15);color:#d03a3a}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;text-align:center}
+.stats .card b{font-size:2rem;color:var(--primary);display:block}
+.note{font-size:.8rem;color:var(--muted);text-align:center;margin-top:12px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+input,select,textarea{font:inherit;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text)}
+.bar input{flex:1;min-width:200px}
+.match{float:right;font-weight:800;color:var(--green);font-size:1.1rem}
+.match.x{color:var(--muted);font-size:.75rem;font-weight:600}
+.empty{text-align:center;padding:50px 20px;color:var(--muted);grid-column:1/-1}
+.empty span{font-size:3rem;display:block}
+.modal{position:fixed;inset:0;background:rgba(20,18,40,.6);display:none;place-items:center;z-index:100;padding:16px}
+.modal.on{display:grid}
+.box{background:var(--card);border-radius:22px;padding:26px;width:100%;max-width:420px;max-height:90vh;overflow:auto}
+.box label{display:block;font-size:.85rem;font-weight:600;margin:12px 0 4px}
+.box input,.box textarea{width:100%}
+.err{color:#d03a3a;font-size:.8rem;min-height:1em}
+.pw{position:relative}.pw button{position:absolute;right:8px;top:6px;background:none;border:0;cursor:pointer;font-size:1rem}
+.tabs{display:flex;gap:6px;background:var(--bg);padding:4px;border-radius:12px}
+.tabs button{flex:1;border:0;padding:8px;border-radius:9px;background:none;color:inherit;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--card);box-shadow:var(--shadow);font-weight:700}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,120px);background:var(--navy);color:#fff;padding:12px 20px;border-radius:14px;z-index:200;transition:transform .3s;max-width:90vw}
+#toast.on{transform:translate(-50%,0)}
+.prog{height:8px;border-radius:9px;background:var(--border);overflow:hidden}.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--orange))}
+footer{background:var(--navy);color:#cfcbf5;text-align:center;padding:30px 20px;font-size:.9rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:820px){.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+<div class="logo" onclick="go('home')"><i>⇄</i>SkillSwap</div>
+<button class="menu" onclick="document.getElementById('links').classList.toggle('open')" aria-label="Menu">☰</button>
+<nav class="links" id="links">
+<a href="#home" data-v="home">Home</a><a href="#explore" data-v="explore">Explore Skills</a><a href="#how" data-v="home">How It Works</a><a href="#community" data-v="home">Community</a>
+<a href="#dashboard" data-v="dashboard" id="dashLink" style="display:none">Dashboard</a>
+<button onclick="toggleTheme()" title="Light / dark mode" aria-label="Toggle theme">🌓</button>
+<span id="guestBtns"><button onclick="openAuth('login')">Login</button><button class="btn p s" onclick="openAuth('signup')">Sign Up</button></span>
+<span id="userBtns" style="display:none"><button class="btn g s" onclick="logout()">Logout</button></span>
+</nav></div></header>
+
+<main>
+<!-- HOME -->
+<div class="view" id="v-home">
+<div class="hero"><div class="wrap">
+<div><span class="tag">✨ Share What You Know. Learn What You Love.</span>
+<h1>Everyone Has a Skill Worth Sharing.</h1>
+<p>Discover new talents, share your knowledge, and connect with people who inspire you. From cooking to coding, music to marketing — learn anything from anyone.</p>
+<div class="cta"><button class="btn o" onclick="go('explore')">Explore Skills</button><button class="btn g" style="color:#fff;border-color:#fff" onclick="openAuth('signup')">Start Sharing</button></div></div>
+<div class="floaty">
+<div class="fc" style="top:0;left:5%"><div class="av" style="background:#e17055">AS</div><div><b>Aarti teaches Cooking</b><small>wants: Photography 📷</small></div></div>
+<div class="fc" style="top:90px;right:0;animation-delay:1s"><div class="av" style="background:#00b894">RK</div><div><b>Rahul teaches Guitar</b><small>wants: Spanish 🇪🇸</small></div></div>
+<div class="fc" style="top:190px;left:12%;animation-delay:2s"><div class="av" style="background:#6C5CE7">MP</div><div><b>Meera teaches Yoga</b><small>wants: Excel 📊</small></div></div>
+</div></div></div>
+
+<section><div class="wrap"><div class="sh"><h2>Popular Skill Categories</h2><p>Whatever you love, someone here can teach it.</p></div>
+<div class="grid" id="cats"></div></div></section>
+
+<section id="how" style="background:var(--card)"><div class="wrap"><div class="sh"><h2>How It Works</h2><p>Four simple steps to your first skill swap.</p></div>
+<div class="grid steps">
+<div class="card"><h3>Create Your Profile</h3><p>Tell the community what you can teach and what you want to learn.</p></div>
+<div class="card"><h3>Discover Skill Partners</h3><p>Find people with compatible skills and interests.</p></div>
+<div class="card"><h3>Send a Skill Swap Request</h3><p>Connect with people and arrange your skill exchange.</p></div>
+<div class="card"><h3>Learn, Teach, and Grow</h3><p>Share knowledge and build new abilities together.</p></div>
+</div></div></section>
+
+<section><div class="wrap"><div class="sh"><h2>Featured Members</h2><p>A community of cooks, makers, coaches and curious minds.</p></div>
+<div class="grid" id="featured"></div></div></section>
+
+<section id="community" style="background:var(--card)"><div class="wrap"><div class="sh"><h2>Our Community</h2></div>
+<div class="stats">
+<div class="card"><b>12,480</b>Members</div><div class="card"><b>3,215</b>Skills</div><div class="card"><b>8,902</b>Completed Exchanges</div><div class="card"><b>146</b>Learning Communities</div></div>
+<p class="note">Numbers and members shown here are sample demo content.</p></div></section>
+</div>
+
+<!-- EXPLORE -->
+<div class="view" id="v-explore"><section><div class="wrap">
+<div class="sh"><h2>Explore Skills</h2><p>Find someone to learn from, or someone who wants what you know.</p></div>
+<div class="bar">
+<input id="q" placeholder="Search a skill or member name…" oninput="renderExplore()">
+<select id="fcat" onchange="renderExplore()"><option value="">All categories</option></select>
+<select id="flvl" onchange="renderExplore()"><option value="">Any level</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
+<select id="floc" onchange="renderExplore()"><option value="">Any location</option></select>
+<select id="fmode" onchange="renderExplore()"><option value="">Online / In-person</option><option>Online</option><option>In-person</option></select>
+<select id="sort" onchange="renderExplore()"><option value="pop">Most popular</option><option value="new">Newest</option><option value="match">Best match</option></select>
+<button class="btn p" onclick="addSkill()">+ Add Skill</button>
+</div>
+<div class="grid" id="results"></div></div></section></div>
+
+<!-- DASHBOARD -->
+<div class="view" id="v-dashboard"><section><div class="wrap">
+<h2 id="hi">Welcome</h2>
+<div class="stats" style="margin:18px 0">
+<div class="card"><b id="sPend">2</b>Pending</div><div class="card"><b id="sAcc">1</b>Accepted</div><div class="card"><b>4</b>Completed</div><div class="card"><b id="pts">65</b>SkillSwap Points</div></div>
+<div class="two">
+<div class="card"><h3>Skills I Can Teach</h3><div id="myTeach"></div><h3 style="margin-top:16px">Skills I Want to Learn</h3><div id="myLearn"></div></div>
+<div class="card"><h3>Learning Progress</h3>
+<small>Photography — Learning</small><div class="prog"><i style="width:55%"></i></div><br>
+<small>Spanish — Beginner</small><div class="prog"><i style="width:20%"></i></div><br>
+<h3>Badges</h3><span class="chip g">🏅 First Swap</span><span class="chip o">🌟 Curious Learner</span><span class="chip">🎓 Early Member</span></div>
+<div class="card"><h3>Incoming Requests</h3><div id="reqs"></div></div>
+<div class="card"><h3>Recommended Partners</h3><div id="recs"></div></div>
+</div></div></section></div>
+</main>
+<footer>© 2026 SkillSwap — Every Skill Has Value. Everyone Has Something to Teach.<br>Phase 1 front-end prototype · sample data only</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal" id="auth"><div class="box">
+<div class="tabs"><button id="tL" onclick="openAuth('login')">Login</button><button id="tS" onclick="openAuth('signup')">Sign Up</button></div>
+<div id="nameRow"><label>Full name</label><input id="aName" placeholder="Your name"></div>
+<label>Email</label><input id="aEmail" type="text" placeholder="you@example.com">
+<label>Password</label><div class="pw"><input id="aPw" type="password" placeholder="At least 8 characters"><button type="button" onclick="aPw.type=aPw.type=='password'?'text':'password'" aria-label="Show password">👁</button></div>
+<div id="cpRow"><label>Confirm password</label><input id="aPw2" type="password"></div>
+<div class="err" id="aErr"></div>
+<div class="cta"><button class="btn p" style="flex:1" id="aGo" onclick="submitAuth()">Continue</button><button class="btn g" onclick="closeM('auth')">Cancel</button></div>
+</div></div>
+
+<!-- REQUEST MODAL -->
+<div class="modal" id="reqM"><div class="box"><h3 id="rTitle">Request a swap</h3><p id="rSub" style="color:var(--muted)"></p>
+<label>Message</label><textarea id="rMsg" rows="3" placeholder="Hi! I’d love to swap skills with you."></textarea>
+<div class="cta"><button class="btn p" onclick="sendReq()">Send Request</button><button class="btn g" onclick="closeM('reqM')">Cancel</button></div></div></div>
+
+<div id="toast"></div>
+
+<script>
+const CATS=[["Technology","💻","Code, data and gadgets","#6C5CE7"],["Cooking","🍳","Recipes, baking, cuisines","#e17055"],["Music","🎸","Instruments and singing","#00b894"],["Art & Design","🎨","Painting, drawing, design","#e84393"],["Photography","📷","Cameras, editing, video","#0984e3"],["Fitness","🧘","Yoga, workouts, wellness","#27AE60"],["Languages","🗣️","Speak with confidence","#fdcb6e"],["Business","📈","Startups, marketing, finance","#2d3436"],["Lifestyle","🌿","Fashion, makeup, gardening","#a29bfe"],["Education","📚","Academic subjects, study skills","#74b9ff"],["DIY & Crafts","🧶","Make and fix things","#fab1a0"],["Other Skills","✨","Anything else you know","#FFB86B"]];
+const M=[
+{id:1,n:"Aarti Shah",i:"AS",c:"#e17055",job:"Home Chef",loc:"Ahmedabad",cat:"Cooking",skill:"Gujarati Cooking",lvl:"Advanced",mode:"Online",teach:["Cooking"],learn:["Photography"],d:"Traditional recipes and festive thali planning.",pop:92,new:3},
+{id:2,n:"Rahul Kapoor",i:"RK",c:"#00b894",job:"Session Guitarist",loc:"Mumbai",cat:"Music",skill:"Acoustic Guitar",lvl:"Advanced",mode:"Online",teach:["Guitar"],learn:["Spanish"],d:"Chords, strumming and song arranging for beginners.",pop:88,new:7},
+{id:3,n:"Meera Patel",i:"MP",c:"#6C5CE7",job:"Yoga Instructor",loc:"Ahmedabad",cat:"Fitness",skill:"Hatha Yoga",lvl:"Advanced",mode:"In-person",teach:["Yoga"],learn:["Excel","Cooking"],d:"Posture, breathing and stress relief routines.",pop:75,new:5},
+{id:4,n:"Daniel Moreno",i:"DM",c:"#0984e3",job:"Photographer",loc:"Madrid",cat:"Photography",skill:"Portrait Photography",lvl:"Advanced",mode:"Online",teach:["Photography","Spanish"],learn:["Cooking","Guitar"],d:"Natural light portraits and Lightroom editing.",pop:95,new:2},
+{id:5,n:"Sunita Rao",i:"SR",c:"#e84393",job:"Retired Teacher",loc:"Pune",cat:"Education",skill:"Maths Tutoring",lvl:"Advanced",mode:"Online",teach:["Maths"],learn:["Painting"],d:"Friendly school maths up to grade 10.",pop:60,new:9},
+{id:6,n:"Kiran Desai",i:"KD",c:"#2d3436",job:"Accountant",loc:"Surat",cat:"Business",skill:"Excel for Business",lvl:"Intermediate",mode:"Online",teach:["Excel"],learn:["Yoga"],d:"Spreadsheets, budgets and simple dashboards.",pop:70,new:4},
+{id:7,n:"Lena Fischer",i:"LF",c:"#a29bfe",job:"Gardener",loc:"Berlin",cat:"Lifestyle",skill:"Balcony Gardening",lvl:"Intermediate",mode:"Online",teach:["Gardening"],learn:["Guitar"],d:"Grow herbs and veggies in small spaces.",pop:58,new:6},
+{id:8,n:"Priya Nair",i:"PN",c:"#fdcb6e",job:"Language Tutor",loc:"Bengaluru",cat:"Languages",skill:"Spanish",lvl:"Intermediate",mode:"Online",teach:["Spanish"],learn:["Gujarati Cooking","Cooking"],d:"Conversational Spanish with daily practice.",pop:81,new:1},
+{id:9,n:"Arjun Mehta",i:"AM",c:"#6C5CE7",job:"Web Developer",loc:"Ahmedabad",cat:"Technology",skill:"HTML & CSS",lvl:"Advanced",mode:"In-person",teach:["Web Development"],learn:["Photography","Yoga"],d:"Build your first responsive website.",pop:85,new:8},
+{id:10,n:"Fatima Khan",i:"FK",c:"#fab1a0",job:"Makeup Artist",loc:"Delhi",cat:"Lifestyle",skill:"Everyday Makeup",lvl:"Advanced",mode:"In-person",teach:["Makeup"],learn:["Web Development"],d:"Skin prep and natural looks for any occasion.",pop:79,new:10}];
+const ME={teach:["Cooking","Photography"],learn:["Photography","Spanish"],mode:"Online"};
+let user=null,target=null;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),2600)}
+function toggleTheme(){const r=document.documentElement;const dark=getComputedStyle(r).colorScheme==="dark";const n=dark?"light":"dark";r.dataset.theme=n;try{localStorage.setItem("ss-theme",n)}catch(e){}}
+try{const t=localStorage.getItem("ss-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}
+function score(m){let s=0;const t=ME.teach.some(x=>m.learn.includes(x)),l=m.teach.some(x=>ME.learn.includes(x));
+if(t&&l)s+=50;else if(t||l)s+=25;else if(m.cat&&["Photography","Cooking","Languages"].includes(m.cat))s+=10;
+s+=(m.mode===ME.mode?15:8);s+=(m.lvl==="Advanced"?12:15);return Math.min(s,99)}
+function why(m){const a=ME.teach.filter(x=>m.learn.includes(x)),b=m.teach.filter(x=>ME.learn.includes(x));
+if(a.length&&b.length)return"Mutual: you teach "+a[0]+", they teach "+b[0];if(a.length)return"They want to learn "+a[0];if(b.length)return"They can teach "+b[0];return"Shared interests"}
+/* views */
+function go(v){location.hash=v}
+function show(){let h=location.hash.slice(1)||"home";const map={how:"home",community:"home"};const v=map[h]||h;
+if(v==="dashboard"&&!user){toast("Please log in to see your dashboard");openAuth("login");history.replaceState(null,"","#home");return show()}
+document.querySelectorAll(".view").forEach(e=>e.classList.toggle("on",e.id==="v-"+v));
+document.querySelectorAll(".links a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+h));
+$("#links").classList.remove("open");if(map[h])setTimeout(()=>document.getElementById(h).scrollIntoView(),50);else window.scrollTo(0,0);
+if(v==="explore")renderExplore();if(v==="dashboard")renderDash()}
+window.addEventListener("hashchange",show);
+/* home */
+$("#cats").innerHTML=CATS.map(c=>`<div class="card"><div class="ico" style="background:${c[3]}22">${c[1]}</div><h3>${c[0]}</h3><p>${c[2]}</p><button class="btn g s" onclick="pickCat('${c[0]}')">Explore</button></div>`).join("");
+$("#featured").innerHTML=M.slice(0,6).map(m=>`<div class="card"><div class="row"><div class="av" style="background:${m.c}">${m.i}</div><div><b>${m.n}</b><br><small style="color:var(--muted)">${m.job} · ${m.loc}</small></div></div><p style="margin-top:12px">${m.d}</p><span class="chip">Teaches ${m.teach[0]}</span><span class="chip o">Wants ${m.learn[0]}</span></div>`).join("");
+CATS.forEach(c=>$("#fcat").insertAdjacentHTML("beforeend",`<option>${c[0]}</option>`));
+[...new Set(M.map(m=>m.loc))].sort().forEach(l=>$("#floc").insertAdjacentHTML("beforeend",`<option>${l}</option>`));
+function pickCat(c){$("#fcat").value=c;go("explore")}
+/* explore */
+function renderExplore(){const q=$("#q").value.toLowerCase(),cat=$("#fcat").value,lv=$("#flvl").value,lo=$("#floc").value,mo=$("#fmode").value,so=$("#sort").value;
+let r=M.filter(m=>(!q||(m.skill+m.n).toLowerCase().includes(q))&&(!cat||m.cat===cat)&&(!lv||m.lvl===lv)&&(!lo||m.loc===lo)&&(!mo||m.mode===mo));
+if(so==="pop")r.sort((a,b)=>b.pop-a.pop);if(so==="new")r.sort((a,b)=>a.new-b.new);if(so==="match"){if(!user)toast("Log in to sort by match");else r.sort((a,b)=>score(b)-score(a))}
+$("#results").innerHTML=r.length?r.map(m=>`<div class="card"><span class="match ${user?"":"x"}">${user?score(m)+"% match":"Log in for match"}</span><span class="chip">${m.cat}</span><h3 style="margin-top:8px">${esc(m.skill)}</h3>
+<div class="row" style="margin:8px 0"><div class="av" style="background:${m.c}">${m.i}</div><div><b>${m.n}</b><br><small style="color:var(--muted)">${m.lvl} · ${m.mode} · ${m.loc}</small></div></div>
+<p>${m.d}</p><div><small>Can teach:</small> ${m.teach.map(t=>`<span class="chip g">${t}</span>`).join("")}</div><div><small>Wants to learn:</small> ${m.learn.map(t=>`<span class="chip o">${t}</span>`).join("")}</div>
+${user?`<small style="color:var(--green)">${why(m)}</small><br>`:""}<button class="btn p s" style="margin-top:10px" onclick="reqSwap(${m.id})">Request Skill Swap</button></div>`).join(""):`<div class="empty"><span>🔍</span>No skills found. Try different filters, or add your own skill!</div>`}
+function addSkill(){if(!user){toast("Log in to add a skill");return openAuth("login")}
+const s=prompt("Skill you can teach (e.g. Origami):");if(!s||!s.trim())return;
+M.unshift({id:Date.now(),n:user.name,i:user.name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase(),c:"#6C5CE7",job:"You",loc:"Ahmedabad",cat:"Other Skills",skill:s.trim().slice(0,40),lvl:"Beginner",mode:"Online",teach:[s.trim().slice(0,40)],learn:["Photography"],d:"Custom skill added by you.",pop:50,new:0});renderExplore();toast("Skill added!")}
+/* requests */
+function reqSwap(id){if(!user){toast("Please log in to send a request");return openAuth("login")}
+target=M.find(m=>m.id===id);if(target.n===user.name)return toast("You can’t request yourself");
+if(target.sent)return toast("You already sent a request to "+target.n);
+$("#rTitle").textContent="Request a swap with "+target.n;$("#rSub").textContent="They teach "+target.skill+".";$("#reqM").classList.add("on")}
+function sendReq(){target.sent=true;closeM("reqM");$("#sPend").textContent=+$("#sPend").textContent+1;toast("Request sent to "+target.n+" ✓");$("#rMsg").value=""}
+/* dashboard */
+function renderDash(){$("#hi").textContent="Welcome back, "+user.name.split(" ")[0]+" 👋";
+$("#myTeach").innerHTML=ME.teach.map(t=>`<span class="chip g">${t}</span>`).join("");$("#myLearn").innerHTML=ME.learn.map(t=>`<span class="chip o">${t}</span>`).join("");
+$("#reqs").innerHTML=[M[3],M[7]].map(m=>m.done?"":`<div class="row" style="margin-bottom:10px" id="rq${m.id}"><div class="av" style="background:${m.c}">${m.i}</div><div style="flex:1"><b>${m.n}</b><br><small style="color:var(--muted)">wants ${m.learn[0]}</small></div><button class="btn p s" onclick="resp(${m.id},1)">Accept</button> <button class="btn g s" onclick="resp(${m.id},0)">Reject</button></div>`).join("")||"<div class='empty'><span>📭</span>No pending requests</div>";
+$("#recs").innerHTML=M.map(m=>({m,s:score(m)})).sort((a,b)=>b.s-a.s).slice(0,3).map(({m,s})=>`<div class="row" style="margin-bottom:10px"><div class="av" style="background:${m.c}">${m.i}</div><div style="flex:1"><b>${m.n}</b> <span class="chip g">${s}%</span><br><small style="color:var(--muted)">${why(m)}</small></div></div>`).join("")}
+function resp(id,ok){M.find(m=>m.id===id).done=1;if(ok){$("#sAcc").textContent=+$("#sAcc").textContent+1;$("#pts").textContent=+$("#pts").textContent+10}
+$("#sPend").textContent=Math.max(0,+$("#sPend").textContent-1);toast(ok?"Request accepted — chat unlocked!":"Request rejected");renderDash()}
+/* auth */
+function openAuth(m){const su=m==="signup";$("#tL").classList.toggle("on",!su);$("#tS").classList.toggle("on",su);$("#nameRow").style.display=$("#cpRow").style.display=su?"block":"none";$("#aGo").textContent=su?"Create Account":"Login";$("#aGo").dataset.m=m;$("#aErr").textContent="";$("#auth").classList.add("on")}
+function closeM(i){$("#"+i).classList.remove("on")}
+function submitAuth(){const su=$("#aGo").dataset.m==="signup",n=$("#aName").value.trim(),e=$("#aEmail").value.trim(),p=$("#aPw").value;let er="";
+if(su&&n.length<2)er="Please enter your full name.";else if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e))er="Enter a valid email address.";else if(p.length<8)er="Password must be at least 8 characters.";else if(su&&p!==$("#aPw2").value)er="Passwords do not match.";
+if(er){$("#aErr").textContent=er;return}
+user={name:su?n:(e.split("@")[0].replace(/^./,c=>c.toUpperCase())||"Friend"),email:e};closeM("auth");
+$("#guestBtns").style.display="none";$("#userBtns").style.display="inline";$("#dashLink").style.display="inline-block";toast(su?"Welcome to SkillSwap, "+user.name+"!":"Logged in successfully");go("dashboard");show()}
+function logout(){user=null;$("#guestBtns").style.display="inline";$("#userBtns").style.display="none";$("#dashLink").style.display="none";toast("Logged out");go("home");show()}
+document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("on")}));
+show();
+</script>
+</body>
+</html>
